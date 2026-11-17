@@ -95,12 +95,15 @@ export const login = catchAsyncErrors(async (req, res, next) => {
   sendToken(user, 200, res, "User logged in successfully.");
 });
 
+// Yahan change kiya gaya hai (logout)
 export const logout = catchAsyncErrors(async (req, res, next) => {
   res
     .status(200)
     .cookie("token", "", {
       expires: new Date(Date.now()),
       httpOnly: true,
+      secure: true,        // Cross-domain ke liye
+      sameSite: "none",    // Cross-domain ke liye
     })
     .json({
       success: true,

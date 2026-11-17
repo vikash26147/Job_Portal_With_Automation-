@@ -10,13 +10,13 @@ import jobRouter from "./routes/jobRouter.js";
 import applicationRouter from "./routes/applicationRouter.js";
 import { newsLetterCron } from "./automation/newsLetterCron.js";
 
-
 const app = express();
+app.set('trust proxy', 1); // Yeh line Render par cookies ke liye zaroori hai
 config({ path: "./config/config.env" });
 
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL],
+    origin: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -37,7 +37,7 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/job", jobRouter);
 app.use("/api/v1/application", applicationRouter);
 
-newsLetterCron()
+newsLetterCron();
 connection();
 app.use(errorMiddleware);
 
